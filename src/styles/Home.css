@@ -1,0 +1,48 @@
+/* styles/Home.css */
+
+/* Nagłówek strony */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Karty lekarzy */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    width: 300px;
+    margin: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    color: #555;
+}
+
+/* Dodaj te style w pliku styles/Home.css */
+.card-img-wrapper {
+    width: 200px; /* Dostosuj szerokość według potrzeb */
+    height: 200px; /* Dostosuj wysokość według potrzeb */
+    overflow: hidden; /* Zapewnia, że obrazy nie zostaną rozciągnięte poza wrapper */
+}
+
+.card-img-wrapper img {
+    width: 100%; /* Ustala szerokość na 100% wrappera */
+    height: auto; /* Pozwala obrazom dostosować się proporcjonalnie */
+}
