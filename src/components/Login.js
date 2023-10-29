@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { auth } from '../firebaseConfig/Firebase';
+import {Link, useNavigate} from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = () => {
         auth.signInWithEmailAndPassword(email, password)
             .then(() => {
                 console.log('Zalogowano pomyślnie!');
+                navigate('/')
             })
             .catch(error => {
                 console.error('Błąd logowania:', error);
@@ -36,6 +39,9 @@ function Login() {
             <button onClick={handleLogin}>
                 Zaloguj się
             </button>
+            <p>Zapomniałeś hasła? <Link to="/forgot-password" className="site-title">Zresetuj je!</Link></p>
+            <p>Nie masz jeszcze konta? <Link to="/" className="site-title">Zarejestuj się!</Link></p>
+
         </div>
     );
 }

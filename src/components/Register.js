@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { auth, database } from '../firebaseConfig/Firebase';
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import User from '../User';
 
 function Register() {
@@ -104,6 +104,9 @@ function Register() {
             <button onClick={handleRegister}>
                 Zarejestruj się
             </button>
+            <p>Masz już konto? <Link to="/login" className="site-title">Zaloguj się!</Link></p>
+            <p>Jesteś lekarzem? <Link to="/register-doctor" className="site-title">Zarejestruj się jako lekarz!</Link></p>
+
         </div>
     );
 }

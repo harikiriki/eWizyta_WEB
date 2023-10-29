@@ -17,7 +17,10 @@ export default function Navbar() {
                     </>
                 )}
                 {currentUser && (
-                    <CustomLinkItem to="/user-profile">Profil użytkownika</CustomLinkItem>
+                    <>
+                        <CustomLinkItem to="/history">Historia wizyt</CustomLinkItem>
+                        <CustomLinkItem to="/user-profile">Profil użytkownika</CustomLinkItem>
+                    </>
                 )}
             </ul>
         </nav>

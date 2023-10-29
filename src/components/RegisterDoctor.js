@@ -179,16 +179,16 @@ function RegisterDoctor() {
                 <option value="">Specjalizacja</option>
                 <option value="Alergolog">Alergolog</option>
                 <option value="Chirurg">Chirurg</option>
-                <option value="Chirurg">Dermatolog</option>
-                <option value="Chirurg">Endokrynolog</option>
-                <option value="Chirurg">Hepatolog</option>
-                <option value="Chirurg">Kardiolog</option>
-                <option value="Chirurg">Neurolog</option>
-                <option value="Chirurg">Ortopeda</option>
-                <option value="Chirurg">Okulista</option>
-                <option value="Chirurg">Onkolog</option>
-                <option value="Chirurg">Psychiatra</option>
-                <option value="Chirurg">Urolog</option>
+                <option value="Dermatolog">Dermatolog</option>
+                <option value="Endokrynolog">Endokrynolog</option>
+                <option value="Hepatolog">Hepatolog</option>
+                <option value="Kardiolog">Kardiolog</option>
+                <option value="Neurolog">Neurolog</option>
+                <option value="Ortopeda">Ortopeda</option>
+                <option value="Okulista">Okulista</option>
+                <option value="Onkolog">Onkolog</option>
+                <option value="Psychiatra">Psychiatra</option>
+                <option value="Urolog">Urolog</option>
             </select>
             <input type="text" placeholder="Adres" value={address} onChange={(e) => setAddress(e.target.value)} />
 
