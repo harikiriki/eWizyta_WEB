@@ -1,4 +1,5 @@
 /* styles/Home.css */
+@import "~react-big-calendar/lib/css/react-big-calendar.css";
 
 /* Nagłówek strony */
 h1 {
@@ -45,4 +46,18 @@ h1 {
 .card-img-wrapper img {
     width: 100%; /* Ustala szerokość na 100% wrappera */
     height: auto; /* Pozwala obrazom dostosować się proporcjonalnie */
+}
+
+.modal {
+    position: fixed;
+    max-width: 500px;
+    max-height: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    z-index: 1000;
+    border: 2px solid rgba(29, 175, 135, 0.43);
+    display: block !important;
 }
