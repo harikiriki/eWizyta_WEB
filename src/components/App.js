@@ -13,6 +13,7 @@ import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import RegisterDoctor from "./RegisterDoctor";
 import History from "./History";
+import DoctorDetails from "./DoctorDetails";
 
 function App() {
     return (
@@ -31,6 +32,8 @@ function App() {
                         <Route path="/edit-profile" element={<EditProfile />} />
                         <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/history" element={<History />} />
+                        <Route path="/doctor/:doctorId" element={<DoctorDetails />} />
+
 
                     </Routes>
                 </div>

@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'moment/locale/pl'; // Importuj lokalizację dla moment
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import {useNavigate} from "react-router-dom";
 
 // Ustaw lokalizator dla kalendarza
 moment.locale('pl');
@@ -19,6 +20,7 @@ function Home() {
     const [doctorImages, setDoctorImages] = useState({});
     const [searchTerm, setSearchTerm] = useState('');
     const { currentUser } = useAuth();
+    const navigate = useNavigate();
 
     const [events, setEvents] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,9 +34,16 @@ function Home() {
 
     const handleSelectSlot = ({ start, end }) => {
         console.log("Slot selected:", start, end);
-        setSelectedSlot({ start, end }); // Zapisz wybrany slot jako selectedEvent
-        setIsModalOpen(true);
+
+        // Sprawdź, czy wybrana data jest w przyszłości
+        if (moment(start).isSameOrAfter(moment(), 'day')) {
+            setSelectedSlot({ start, end }); // Zapisz wybrany slot jako selectedEvent
+            setIsModalOpen(true);
+        } else {
+            alert('Nie można dodawać wizyt w przeszłości.');
+        }
     };
+
 
 
     const handleSelectEvent = (event) => {
@@ -103,12 +112,16 @@ function Home() {
         }
     };
 
-
     useEffect(() => {
         let appointmentsRef;
+        console.log("useEffect started"); // Logowanie na początku useEffect
+
         if (currentUser) {
+            console.log("Current user:", currentUser);
             const doctorRef = database.ref(`Doctors/${currentUser.uid}`);
             doctorRef.once("value").then(snapshot => {
+                console.log("DoctorRef snapshot:", snapshot.exists());
+
                 if (snapshot.exists()) {
                     setUserType('doctor');
                     // Ustawienie odnośnika do wizyt lekarza
@@ -121,7 +134,6 @@ function Home() {
                                 const [date, time] = dateTime.split(' ');
                                 const [day, month, year] = date.split('/');
                                 const [hours, minutes] = time.split(':');
-                                // Konwersja daty na format wymagany przez kalendarz
                                 const start = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10), parseInt(hours, 10), parseInt(minutes, 10));
                                 const end = new Date(start.getTime() + 30 * 60000); // Zakładamy, że każda wizyta trwa 30 minut
                                 return {
@@ -132,65 +144,72 @@ function Home() {
                                 };
                             });
                             setEvents(formattedEvents);
-                        } else {
-                            setUserType('patient');
-                            const doctorsDatabaseRef = database.ref('Doctors');
-                            doctorsDatabaseRef.once("value").then(doctorsSnapshot => {
-                                if (doctorsSnapshot.exists()) {
-                                    const doctors = [];
-                                    const imagePromises = [];
-
-                                    doctorsSnapshot.forEach(doctor => {
-                                        const doctorData = doctor.val();
-                                        doctors.push(doctorData);
-
-                                        // Pobierz zdjęcia lekarzy i zapisz je w stanie
-                                        const imageRef = storage.ref(`profileImages/profileImage_${doctorData.uid}.jpg`);
-                                        const imagePromise = imageRef.getDownloadURL().then(url => {
-                                            setDoctorImages(prevImages => ({
-                                                ...prevImages,
-                                                [doctorData.uid]: url
-                                            }));
-                                        }).catch(error => {
-                                            // Obsłuż błąd, jeśli nie ma zdjęcia lekarza
-                                            setDoctorImages(prevImages => ({
-                                                ...prevImages,
-                                                [doctorData.uid]: storage.ref(`profileImages/baseline_person.png`)
-                                            }));
-                                        });
-
-                                        imagePromises.push(imagePromise);
-                                    });
-
-                                    // Po załadowaniu wszystkich zdjęć zaktualizuj stan z listą lekarzy i zdjęciami
-                                    Promise.all(imagePromises).then(() => {
-                                        setDoctorsList(doctors);
-                                    });
-                                }
-                            });
                         }
                     });
                 } else {
                     setUserType('patient');
-                    // Reszta logiki dla pacjenta...
-                    // (tutaj nic się nie zmienia)
                 }
+            }).catch(error => {
+                console.error("Error with doctorRef snapshot:", error);
             });
         }
+
+        // Pobieranie listy lekarzy dla wszystkich użytkowników, niezależnie od ich typu
+        const doctorsDatabaseRef = database.ref('Doctors');
+        doctorsDatabaseRef.once("value").then(doctorsSnapshot => {
+            if (doctorsSnapshot.exists()) {
+                const doctors = [];
+                const imagePromises = [];
+
+                doctorsSnapshot.forEach(doctor => {
+                    const doctorData = doctor.val();
+                    doctors.push(doctorData);
+
+                    // Pobierz zdjęcia lekarzy i zapisz je w stanie
+                    const imageRef = storage.ref(`profileImages/profileImage_${doctorData.uid}.jpg`);
+                    const imagePromise = imageRef.getDownloadURL().then(url => {
+                        setDoctorImages(prevImages => ({
+                            ...prevImages,
+                            [doctorData.uid]: url
+                        }));
+                    }).catch(error => {
+                        setDoctorImages(prevImages => ({
+                            ...prevImages,
+                            [doctorData.uid]: storage.ref(`profileImages/baseline_person.png`)
+                        }));
+                    });
+
+                    imagePromises.push(imagePromise);
+                });
+
+                Promise.all(imagePromises).then(() => {
+                    setDoctorsList(doctors);
+                }).catch(error => {
+                    console.error("Error loading doctor images:", error);
+                });
+            } else {
+                console.log("No doctors found in database");
+            }
+        }).catch(error => {
+            console.error("Error loading doctors from database", error);
+        });
+
         // Clean-up function
         return () => {
             if (appointmentsRef) {
                 appointmentsRef.off();
             }
         };
-    }, [currentUser]); // Nie potrzebujesz 'userType' w tablicy zależności useEffect, ponieważ 'userType' jest ustawiane wewnątrz tego efektu
-
+    }, [currentUser]);
 
 
     // Funkcja do obsługi umawiania wizyty
     const handleAppointmentClick = (doctor) => {
-
+        // Przenosi użytkownika do strony szczegółów lekarza
+        navigate(`/doctor/${doctor.uid}`);
     };
+
+
 
     // Funkcja do filtrowania lekarzy na podstawie wprowadzonego słowa kluczowego
     const filteredDoctors = doctorsList.filter((doctor) => {
