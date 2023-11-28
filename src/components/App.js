@@ -14,6 +14,7 @@ import ChangePassword from "./ChangePassword";
 import RegisterDoctor from "./RegisterDoctor";
 import History from "./History";
 import DoctorDetails from "./DoctorDetails";
+import PatientSchedule from "./PatientSchedule";
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
                         <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/history" element={<History />} />
                         <Route path="/doctor/:doctorId" element={<DoctorDetails />} />
+                        <Route path="/schedule" element={<PatientSchedule />} />
 
 
                     </Routes>

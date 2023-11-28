@@ -227,7 +227,8 @@ function Home() {
     } else if (userType === 'patient') {
         return (
             <div>
-                <h1>Strona pacjenta</h1>
+                <h2>Znajdź lekarza i umów wizytę w kilka chwil!</h2>
+                <h5>Skorzystaj z wyszukiwarki, aby znaleźć lekarza o wybranej przez siebie specjalizacji.</h5>
                 <div className="search-bar">
                     <input
                         type="text"
