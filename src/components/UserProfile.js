@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { auth, database, storage } from '../firebaseConfig/Firebase';
 import {Link, useNavigate} from "react-router-dom";
+import '../styles/UserProfile.css';
 
 function UserProfile() {
     const [userData, setUserData] = useState({});
@@ -53,16 +54,24 @@ function UserProfile() {
     };
 
     return (
-        <div>
-            {profileImage && <img src={profileImage} alt="Profile" />}
-            <p>Imie: {userData.name}</p>
-            <p>Nazwisko: {userData.lastName}</p>
-            <p>E-mail: {userData.email}</p>
-            <p>Numer telefonu: {userData.phone}</p>
-            <p>Data urodzenia: {userData.birthDate}</p>
-            <Link to="/edit-profile">Edytuj profil</Link>
-            <Link to="/change-password">Zmień hasło</Link>
-            <button onClick={handleLogout}>Wyloguj się</button>
+        <div className="user-profile-container">
+            {profileImage && (
+                <img
+                    src={profileImage}
+                    alt="Profile"
+                    className="profile-image"
+                />
+            )}
+            <div className="user-data">
+                <p>Imię: {userData.name}</p>
+                <p>Nazwisko: {userData.lastName}</p>
+                <p>E-mail: {userData.email}</p>
+                <p>Numer telefonu: {userData.phone}</p>
+                <p>Data urodzenia: {userData.birthDate}</p>
+                <Link to="/edit-profile" className="edit-link">Edytuj profil</Link>
+                <Link to="/change-password" className="change-password-link">Zmień hasło</Link>
+                <button onClick={handleLogout} className="logout-button">Wyloguj się</button>
+            </div>
         </div>
     );
 }

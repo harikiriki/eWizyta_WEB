@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { auth, database } from '../firebaseConfig/Firebase';
 import {Link, useNavigate} from "react-router-dom";
 import User from '../User';
+import '../styles/Login.css';
 
 function Register() {
     const [email, setEmail] = useState('');
@@ -46,7 +47,7 @@ function Register() {
 
 
     return (
-        <div className="register-container">
+        <div className="login-container">
             <h2>Rejestracja</h2>
 
             <input

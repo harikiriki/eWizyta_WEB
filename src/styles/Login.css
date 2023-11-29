@@ -1,0 +1,107 @@
+/* Login.css */
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin-top: 40px;
+}
+
+.login-container h2 {
+    color: #065716;
+    margin-bottom: 20px;
+}
+
+.login-container input {
+    width: 80%;
+    max-width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-container button {
+    width: 80%;
+    max-width: 300px;
+    padding: 10px;
+    background-color: #065716;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+}
+
+.login-container button:hover {
+    background-color: #048b4e;
+}
+
+.login-container p {
+    color: #333;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.login-container .site-title {
+    color: #065716;
+    text-decoration: none;
+    display: block; /* Make link occupy the full width */
+    margin: 10px 0; /* Add some space above and below the link */
+    text-align: center; /* Center the text within the link */
+}
+
+.login-container .site-title:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        width: 90%;
+        margin: auto;
+    }
+}
+
+.login-container select {
+    width: 80%; /* Same as the input fields */
+    max-width: 300px; /* Same as the input fields */
+    padding: 10px; /* Same padding for visual consistency */
+    margin-bottom: 10px; /* Same margin to match the layout */
+    border: 1px solid #ccc; /* Same border styling */
+    border-radius: 5px; /* Same border radius for rounded corners */
+    box-sizing: border-box; /* Ensures padding does not add to the width */
+    background-color: white; /* Optional: sets a background color for the dropdown */
+    -webkit-appearance: none; /* Removes default styling, particularly on iOS */
+    -moz-appearance: none; /* Removes default styling for Firefox */
+    appearance: none; /* Standard syntax to remove default styling */
+    cursor: pointer; /* Changes cursor to indicate it's selectable */
+}
+
+.login-container select {
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 12px;
+}
+
+
+/* Apply the same hover effect for buttons to the select element if desired */
+.login-container select:hover {
+    background-color: #f2f2f2; /* Light grey background on hover */
+}
+
+/* Ensure the focus state is also consistent with the input fields */
+.login-container select:focus {
+    outline: none;
+    border-color: #065716; /* Green border to match the button color */
+    box-shadow: 0 0 0 2px rgba(6, 87, 22, 0.25); /* Optional: Adds a subtle shadow on focus */
+}
+
+.login-container input:focus,
+.login-container select:focus {
+    outline: none;
+    border: 1px solid #065716; /* Dark green border */
+}

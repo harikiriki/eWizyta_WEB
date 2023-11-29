@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, database } from '../firebaseConfig/Firebase';
+import '../styles/EditProfile.css';
 
 function EditProfile() {
     const currentUser = auth.currentUser;
@@ -54,49 +55,54 @@ function EditProfile() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Imie:</label>
+        <form onSubmit={handleSubmit} className="edit-profile-form">
+            <div className="form-group">
+                <label>Imię:</label>
                 <input
                     type="text"
                     value={userData.name}
                     onChange={(e) => setUserData({...userData, name: e.target.value})}
+                    className="form-control"
                 />
             </div>
-            <div>
+            <div className="form-group">
                 <label>Nazwisko:</label>
                 <input
                     type="text"
                     value={userData.lastName}
                     onChange={(e) => setUserData({...userData, lastName: e.target.value})}
+                    className="form-control"
                 />
             </div>
-            <div>
+            <div className="form-group">
                 <label>E-mail:</label>
                 <input
                     type="email"
                     value={userData.email}
                     onChange={(e) => setUserData({...userData, email: e.target.value})}
+                    className="form-control"
                     disabled
                 />
             </div>
-            <div>
+            <div className="form-group">
                 <label>Numer telefonu:</label>
                 <input
                     type="tel"
                     value={userData.phone}
                     onChange={(e) => setUserData({...userData, phone: e.target.value})}
+                    className="form-control"
                 />
             </div>
-            <div>
+            <div className="form-group">
                 <label>Data urodzenia:</label>
                 <input
                     type="date"
                     value={userData.birthDate}
                     onChange={(e) => setUserData({...userData, birthDate: e.target.value})}
+                    className="form-control"
                 />
             </div>
-            <button type="submit">Zapisz</button>
+            <button type="submit" className="btn-save">Zapisz</button>
         </form>
     );
 }

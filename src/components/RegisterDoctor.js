@@ -111,8 +111,9 @@
 
 import React, { useState } from 'react';
 import { auth, database } from '../firebaseConfig/Firebase';
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Doctor from '../Doctor';
+import '../styles/Login.css';
 
 function RegisterDoctor() {
     const [email, setEmail] = useState('');
@@ -159,7 +160,7 @@ function RegisterDoctor() {
     };
 
     return (
-        <div className="register-container">
+        <div className="login-container">
             <h2>Rejestracja dla lekarza</h2>
 
             <input type="text" placeholder="Imię" value={name} onChange={(e) => setName(e.target.value)} />
@@ -195,6 +196,9 @@ function RegisterDoctor() {
             <button onClick={handleRegister}>
                 Zarejestruj się
             </button>
+            <p>Masz już konto? <Link to="/login" className="site-title">Zaloguj się!</Link></p>
+            <p>Jesteś pacjentem? <Link to="/register" className="site-title">Zarejestruj się jako pacjent!</Link></p>
+
         </div>
     );
 }

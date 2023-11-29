@@ -1,0 +1,138 @@
+/*!* UserProfile.css *!*/
+/*.user-profile-container {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    margin-top: 50px;*/
+/*}*/
+
+/*.profile-image {*/
+/*    border-radius: 50%;*/
+/*    width: 150px;*/
+/*    height: 150px;*/
+/*    object-fit: cover;*/
+/*    border: 3px solid #065716;*/
+/*    margin-bottom: 30px;*/
+/*}*/
+
+/*.user-data {*/
+/*    background-color: #f8f9fa;*/
+/*    padding: 20px;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: 0 4px 8px rgba(0,0,0,0.1);*/
+/*    text-align: center;*/
+/*    width: 100%;*/
+/*    max-width: 400px;*/
+/*}*/
+
+/*.user-data p {*/
+/*    margin: 10px 0;*/
+/*    font-size: 18px;*/
+/*    color: #333;*/
+/*}*/
+
+/*.user-data a {*/
+/*    display: inline-block;*/
+/*    background-color: #065716;*/
+/*    color: white;*/
+/*    padding: 10px 20px;*/
+/*    margin: 5px;*/
+/*    border-radius: 5px;*/
+/*    text-decoration: none;*/
+/*    transition: background-color 0.3s;*/
+/*}*/
+
+/*.user-data a:hover {*/
+/*    background-color: #048b4e;*/
+/*}*/
+
+/*.user-data button {*/
+/*    width: calc(100% - 40px); !* odejmujemy padding *!*/
+/*    margin-top: 15px;*/
+/*    padding: 10px;*/
+/*    font-size: 18px;*/
+/*    background-color: #065716;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s;*/
+/*}*/
+
+/*.user-data button:hover {*/
+/*    background-color: #048b4e;*/
+/*}*/
+
+/*!* Styl dla mniejszych ekranów *!*/
+/*@media (max-width: 768px) {*/
+/*    .user-data {*/
+/*        width: 90%;*/
+/*    }*/
+/*}*/
+
+.user-profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.profile-image {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #065716;
+    margin-bottom: 30px;
+}
+
+.user-data {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    display: flex; /* Added */
+    flex-direction: column; /* Added */
+    align-items: center; /* Added */
+}
+
+.user-data p {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.user-data a, .user-data button {
+    background-color: #065716;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    display: block; /* Modified */
+    width: 80%; /* Modified */
+    text-align: center; /* Added */
+}
+
+.user-data a:hover, .user-data button:hover {
+    background-color: #048b4e;
+}
+
+/* Added to ensure consistency */
+.user-data button {
+    border: none;
+    cursor: pointer;
+}
+
+/* Styl dla mniejszych ekranów */
+@media (max-width: 768px) {
+    .user-data {
+        width: 90%;
+    }
+}

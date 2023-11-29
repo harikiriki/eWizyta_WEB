@@ -289,6 +289,23 @@ function Home() {
                         time: 'Czas',
                         event: 'Wydarzenie',
                     }}
+                    // eventPropGetter={(event, start, end, isSelected) => {
+                    //     let newStyle = {
+                    //         backgroundColor: "#0c672d",
+                    //         color: 'white',
+                    //         borderRadius: "0px",
+                    //         border: "none"
+                    //     };
+                    //
+                    //     if (event.isMine) {
+                    //         newStyle.backgroundColor = "#065716"
+                    //     }
+                    //
+                    //     return {
+                    //         className: "",
+                    //         style: newStyle
+                    //     };
+                    // }}
                 />
 
                 {isModalOpen && (

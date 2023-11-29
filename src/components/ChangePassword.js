@@ -2,6 +2,7 @@ import firebase from 'firebase/compat/app';
 import { useState } from "react";
 import { auth } from '../firebaseConfig/Firebase';
 import {useNavigate} from 'react-router-dom';
+import '../styles/EditProfile.css';
 
 function ChangePassword() {
     const [oldPassword, setOldPassword] = useState("");
@@ -38,8 +39,8 @@ function ChangePassword() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
+        <form onSubmit={handleSubmit} className="edit-profile-form">
+            <div className="form-group">
                 <label>Stare hasło:</label>
                 <input
                     type="password"
@@ -47,7 +48,7 @@ function ChangePassword() {
                     onChange={(e) => setOldPassword(e.target.value)}
                 />
             </div>
-            <div>
+            <div className="form-group">
                 <label>Nowe hasło:</label>
                 <input
                     type="password"
@@ -55,7 +56,7 @@ function ChangePassword() {
                     onChange={(e) => setNewPassword(e.target.value)}
                 />
             </div>
-            <div>
+            <div className="form-group">
                 <label>Powtórz nowe hasło:</label>
                 <input
                     type="password"
@@ -63,7 +64,7 @@ function ChangePassword() {
                     onChange={(e) => setRepeatNewPassword(e.target.value)}
                 />
             </div>
-            <button type="submit">Zmień hasło</button>
+            <button type="submit" className="btn-save">Zapisz</button>
         </form>
     );
 }
