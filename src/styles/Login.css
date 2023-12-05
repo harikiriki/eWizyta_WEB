@@ -105,3 +105,28 @@
     outline: none;
     border: 1px solid #065716; /* Dark green border */
 }
+
+#ic_google {
+    width: 60px;  /* Ograniczenie szerokości przycisku */
+    height: 60px;  /* Ograniczenie wysokości przycisku */
+    padding: 5px;  /* Dodanie paddingu dla wewnętrznego odstępu */
+    margin: 10px 0; /* Margines dla odstępu wokół przycisku */
+    border: none;  /* Usunięcie obramowania */
+    background-color: #fff; /* Białe tło */
+    border-radius: 5px; /* Zaokrąglenie rogów */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Lekki cień dla efektu głębi */
+    display: flex; /* Użycie flexboxa do wyśrodkowania ikony i tekstu */
+    justify-content: center; /* Wyśrodkowanie zawartości w poziomie */
+    align-items: center; /* Wyśrodkowanie zawartości w pionie */
+    cursor: pointer; /* Kursor wskazujący, że przycisk jest klikalny */
+    transition: background-color 0.3s; /* Animacja tła przy najechaniu */
+}
+
+#ic_google:hover {
+    background-color: #f2f2f2; /* Zmiana koloru tła przy najechaniu */
+}
+
+#ic_google img {
+    width: 55px; /* Ograniczenie szerokości ikony */
+    height: 55px; /* Ograniczenie wysokości ikony */
+}

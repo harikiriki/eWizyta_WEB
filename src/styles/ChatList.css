@@ -1,0 +1,48 @@
+/* ChatList.css */
+
+/* Container for the entire chat list */
+.chat-list {
+    width: 100%;
+    max-width: 600px; /* Adjust as necessary */
+    margin: auto;
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9; /* Light gray background */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow */
+}
+
+/* Style for individual chat items */
+.chat-item {
+    padding: 15px;
+    border-bottom: 1px solid #e1e1e1; /* Light gray border for each item */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for chat items */
+.chat-item:hover {
+    background-color: #e8f5e9; /* Light green background on hover */
+}
+
+/* Style for the chat name (user's name) */
+.chat-name {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333; /* Darker text for better readability */
+}
+
+/* Style for the last message preview text */
+.chat-last-message {
+    font-size: 0.9em;
+    color: #666; /* Lighter text color */
+    margin-top: 5px; /* Spacing between name and message */
+}
+
+/* Style for the timestamp */
+.chat-timestamp {
+    font-size: 0.8em;
+    color: #999; /* Even lighter text color for timestamp */
+    text-align: right; /* Align timestamp to the right */
+    margin-top: 10px; /* Spacing above timestamp */
+}

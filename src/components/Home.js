@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { database, storage } from '../firebaseConfig/Firebase';
 import { useAuth } from '../auth/AuthContext';
 import '../styles/Home.css';
+import clinic from '../clinic.png'
+
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -222,7 +224,14 @@ function Home() {
 
     if (!userType) {
         return (
-            <div><h1>Tu będzie strona główna</h1></div>
+            <div><h2>Witaj w eWizyta!</h2>
+                <h3>Systemie umożliwiającym szybki kontakt z lekarzem specjalistą.</h3>
+                <img
+                    src={clinic}
+                    alt="Strona główna"
+                    className="home-image"
+                />
+            </div>
         )
     } else if (userType === 'patient') {
         return (
@@ -288,24 +297,7 @@ function Home() {
                         date: 'Data',
                         time: 'Czas',
                         event: 'Wydarzenie',
-                    }}
-                    // eventPropGetter={(event, start, end, isSelected) => {
-                    //     let newStyle = {
-                    //         backgroundColor: "#0c672d",
-                    //         color: 'white',
-                    //         borderRadius: "0px",
-                    //         border: "none"
-                    //     };
-                    //
-                    //     if (event.isMine) {
-                    //         newStyle.backgroundColor = "#065716"
-                    //     }
-                    //
-                    //     return {
-                    //         className: "",
-                    //         style: newStyle
-                    //     };
-                    // }}
+                    }}x
                 />
 
                 {isModalOpen && (

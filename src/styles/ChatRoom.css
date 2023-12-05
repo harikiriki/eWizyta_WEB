@@ -1,0 +1,53 @@
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px; /* Dostosuj szerokość do swoich potrzeb */
+    margin: 0 auto;
+}
+
+/* Stylizacja wiadomości */
+.message {
+    display: flex;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+/* Stylizacja wiadomości wysłanych (prawa strona) */
+.message-sent {
+    margin-left: auto;
+    background-color: #DCF8C6; /* Jasnozielony, jak w WhatsApp */
+}
+
+/* Stylizacja wiadomości otrzymanych (lewa strona) */
+.message-received {
+    margin-right: auto;
+    background-color: #FFFFFF; /* Biały lub inny kolor tła dla odróżnienia */
+}
+
+/* Dodatkowa stylizacja dla tekstu wiadomości */
+.message p {
+    word-wrap: break-word;
+}
+
+/* Stylizacja znacznika czasu */
+.message-timestamp {
+    font-size: 0.75em; /* Mniejszy tekst dla znacznika czasu */
+    margin-left: 10px;
+}
+
+/* Stylizacja pola do wpisywania wiadomości i przycisku wysłania */
+.input-field {
+    display: flex;
+}
+
+.input-field input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.input-field button {
+    /* Stylizacja według preferencji */
+}

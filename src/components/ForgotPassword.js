@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { auth } from '../firebaseConfig/Firebase';
 import { Link, useNavigate } from "react-router-dom";
+import '../styles/Login.css';
+
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -22,7 +24,7 @@ function ForgotPassword() {
     };
 
     return (
-        <div className="reset-password-container">
+        <div className="login-container">
             <h2>Wpisz swój adres mailowy w celu zresetowania hasła</h2>
 
             <input

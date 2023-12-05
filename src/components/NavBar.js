@@ -44,6 +44,7 @@ export default function Navbar() {
                     <>
                         {userRole === 'patient' && <CustomLinkItem to="/schedule">Terminarz</CustomLinkItem>}
                         <CustomLinkItem to="/history">Historia wizyt</CustomLinkItem>
+                        <CustomLinkItem to="/chat">Chat</CustomLinkItem>
                         <CustomLinkItem to="/user-profile">Profil użytkownika</CustomLinkItem>
                     </>
                 )}

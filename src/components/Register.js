@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { auth, database } from '../firebaseConfig/Firebase';
+import {auth, database, googleAuthProvider} from '../firebaseConfig/Firebase';
 import {Link, useNavigate} from "react-router-dom";
 import User from '../User';
 import '../styles/Login.css';
+import ic_google from "../ic_google.png";
 
 function Register() {
     const [email, setEmail] = useState('');
@@ -45,7 +46,26 @@ function Register() {
         }
     };
 
-
+    const handleGoogleSignInClick = () => {
+        auth.signInWithPopup(googleAuthProvider)
+            .then((result) => {
+                // Sprawdź, czy użytkownik istnieje w bazie danych
+                const uid = result.user.uid;
+                database.ref(`Users/${uid}`).once('value', snapshot => {
+                    if (snapshot.exists()) {
+                        // Użytkownik istnieje, przekieruj na stronę główną
+                        navigate('/');
+                    } else {
+                        // Użytkownik nie istnieje, przechowaj dane i przekieruj do /google-sign-in
+                        localStorage.setItem('googleUser', JSON.stringify(result.user));
+                        navigate('/google-sign-in');
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Błąd logowania przez Google:', error);
+            });
+    };
     return (
         <div className="login-container">
             <h2>Rejestracja</h2>
@@ -104,6 +124,9 @@ function Register() {
 
             <button onClick={handleRegister}>
                 Zarejestruj się
+            </button>
+            <button id="ic_google" onClick={handleGoogleSignInClick}>
+                <img src={ic_google} alt="Google Sign In" />
             </button>
             <p>Masz już konto? <Link to="/login" className="site-title">Zaloguj się!</Link></p>
             <p>Jesteś lekarzem? <Link to="/register-doctor" className="site-title">Zarejestruj się jako lekarz!</Link></p>

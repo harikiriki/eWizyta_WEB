@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { auth } from '../firebaseConfig/Firebase';
+import {auth, googleAuthProvider, database} from '../firebaseConfig/Firebase';
 import {Link, useNavigate} from "react-router-dom";
 import '../styles/Login.css';
+import ic_google from '../ic_google.png';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -18,6 +19,29 @@ function Login() {
                 console.error('Błąd logowania:', error);
             });
     };
+
+    const handleGoogleSignInClick = () => {
+        auth.signInWithPopup(googleAuthProvider)
+            .then((result) => {
+                // Sprawdź, czy użytkownik istnieje w bazie danych
+                const uid = result.user.uid;
+                database.ref(`Users/${uid}`).once('value', snapshot => {
+                    if (snapshot.exists()) {
+                        // Użytkownik istnieje, przekieruj na stronę główną
+                        navigate('/');
+                    } else {
+                        // Użytkownik nie istnieje, przechowaj dane i przekieruj do /google-sign-in
+                        localStorage.setItem('googleUser', JSON.stringify(result.user));
+                        navigate('/google-sign-in');
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Błąd logowania przez Google:', error);
+            });
+    };
+
+
 
     return (
         <div className="login-container">
@@ -39,6 +63,9 @@ function Login() {
 
             <button onClick={handleLogin}>
                 Zaloguj się
+            </button>
+            <button id="ic_google" onClick={handleGoogleSignInClick}>
+                <img src={ic_google} alt="Google Sign In" />
             </button>
             <p>Zapomniałeś hasła? <Link to="/forgot-password" className="site-title">Zresetuj je!</Link></p>
             <p>Nie masz jeszcze konta? <Link to="/register" className="site-title">Zarejestuj się!</Link></p>

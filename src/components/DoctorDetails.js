@@ -57,6 +57,31 @@ const DoctorDetails = () => {
     };
 
 
+    // const handleConfirmAppointment = () => {
+    //     const user = currentUser;
+    //
+    //     if (user && selectedAppointment?.id) {
+    //         // Pobierz dodatkowe dane użytkownika z bazy danych
+    //         database.ref(`Users/${user.uid}`).once('value').then((snapshot) => {
+    //             const userData = snapshot.val();
+    //             return database.ref(`Doctors/${doctorId}/appointments/${selectedAppointment.id}`).update({
+    //                 free: false,
+    //                 patientId: user.uid,
+    //                 patientName: `${userData.name} ${userData.lastName}` // Użyj danych z bazy danych
+    //             });
+    //         }).then(() => {
+    //             setModalOpen(false);
+    //             alert('Wizyta została zarezerwowana.');
+    //             navigate('/');
+    //         }).catch(error => {
+    //             alert('Nie udało się zarezerwować wizyty, spróbuj ponownie.');
+    //             console.error('Błąd rezerwacji wizyty:', error);
+    //         });
+    //     } else {
+    //         alert('Nie jesteś zalogowany lub wystąpił błąd z wybranym terminem.');
+    //     }
+    // };
+
     const handleConfirmAppointment = () => {
         const user = currentUser;
 
@@ -64,11 +89,38 @@ const DoctorDetails = () => {
             // Pobierz dodatkowe dane użytkownika z bazy danych
             database.ref(`Users/${user.uid}`).once('value').then((snapshot) => {
                 const userData = snapshot.val();
-                return database.ref(`Doctors/${doctorId}/appointments/${selectedAppointment.id}`).update({
+                const updates = {};
+
+                // Informacje o wizycie do zapisania w bazie lekarza
+                const doctorAppointmentUpdate = {
                     free: false,
                     patientId: user.uid,
                     patientName: `${userData.name} ${userData.lastName}` // Użyj danych z bazy danych
-                });
+                };
+
+                // Przygotuj aktualizację w bazie lekarza
+                updates[`Doctors/${doctorId}/appointments/${selectedAppointment.id}`] = doctorAppointmentUpdate;
+
+                // Informacje o wizycie do zapisania w bazie pacjenta
+                const patientAppointment = {
+                    address: doctorDetails.address,
+                    complete: false,
+                    dateTime: moment(selectedAppointment.start).format('YYYY-MM-DD HH:mm:ss'), // Zapisz datę jako string
+                    doctorId: doctorId,
+                    doctorName: `${doctorDetails.name} ${doctorDetails.lastName}`,
+                    free: false,
+                    id: selectedAppointment.id, // Przekaż id wizyty
+                    patientId: user.uid,
+                    patientName: `${userData.name} ${userData.lastName}`,
+                    price: doctorDetails.price
+                };
+
+                // Dodaj informacje o wizycie do pacjenta
+                updates[`Users/${user.uid}/appointments/${selectedAppointment.id}`] = patientAppointment;
+
+                // Wykonaj transakcję
+                return database.ref().update(updates);
+
             }).then(() => {
                 setModalOpen(false);
                 alert('Wizyta została zarezerwowana.');
@@ -81,6 +133,9 @@ const DoctorDetails = () => {
             alert('Nie jesteś zalogowany lub wystąpił błąd z wybranym terminem.');
         }
     };
+
+
+
 
 
     return (

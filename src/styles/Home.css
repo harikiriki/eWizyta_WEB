@@ -21,11 +21,26 @@ h2 {
     color: #0c672d;
     font-weight: 400;
 }
+
+h3 {
+    text-align: center;
+    color: #0c672d;
+    font-weight: 400;
+}
+
 h5 {
     text-align: center;
     color: #0c672d;
     font-weight: 400;
 }
+
+.home-image {
+    width: 100%;        /* Szerokość obrazka to 60% szerokości kontenera */
+    height: auto;      /* Wysokość ustawiona na 'auto' zachowa proporcje obrazka */
+    display: block;    /* Zapewnia, że obrazek będzie miał własną linię i nie będzie inline */
+    margin-top: 40px;
+}
+
 
 /* Karty lekarzy */
 .row {
