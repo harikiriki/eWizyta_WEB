@@ -1,53 +1,120 @@
-
-.chat-container {
-    display: flex;
-    flex-direction: column;
-    max-width: 600px; /* Dostosuj szerokość do swoich potrzeb */
-    margin: 0 auto;
-}
-
-/* Stylizacja wiadomości */
-.message {
-    display: flex;
+{
+    font-family: 'Arial', sans-serif;
     padding: 10px;
-    margin: 5px;
-    border-radius: 10px;
-    max-width: 80%;
+    background-color: #f0f0f0;
+    max-width: 600px;
+    margin: auto;
 }
 
-/* Stylizacja wiadomości wysłanych (prawa strona) */
-.message-sent {
-    margin-left: auto;
-    background-color: #DCF8C6; /* Jasnozielony, jak w WhatsApp */
+/* Stylizacja nagłówka rozmowy */
+h2 {
+    text-align: center;
+    color: #333;
 }
 
-/* Stylizacja wiadomości otrzymanych (lewa strona) */
-.message-received {
-    margin-right: auto;
-    background-color: #FFFFFF; /* Biały lub inny kolor tła dla odróżnienia */
-}
-
-/* Dodatkowa stylizacja dla tekstu wiadomości */
-.message p {
+/* Stylizacja obszaru wiadomości */
+.message-sent, .message-received {
+    padding: 10px;
+    border-radius: 20px;
+    margin: 5px 0;
+    max-width: 50%;
     word-wrap: break-word;
 }
 
-/* Stylizacja znacznika czasu */
+/* Specyficzne style dla wysłanych wiadomości */
+.message-sent {
+    background-color: #dcf8c6; /* Jasnozielony kolor tła */
+    align-self: flex-end;
+    margin-left: auto;
+    text-align: right;
+}
+
+/* Specyficzne style dla otrzymanych wiadomości */
+.message-received {
+    background-color: #fff;
+    align-self: flex-start;
+    margin-right: auto;
+    text-align: left;
+}
+
+/* Stylizacja znacznika czasu wiadomości */
 .message-timestamp {
-    font-size: 0.75em; /* Mniejszy tekst dla znacznika czasu */
-    margin-left: 10px;
+    display: block;
+    color: #999;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
-/* Stylizacja pola do wpisywania wiadomości i przycisku wysłania */
-.input-field {
+/* Stylizacja pola tekstowego i przycisku */
+.input[type="text"] {
+    width: calc(100% - 100px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.button {
+    width: 90px;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+
+.input-container {
     display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
 }
 
-.input-field input {
+.input-field {
     flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
     margin-right: 10px;
 }
 
-.input-field button {
-    /* Stylizacja według preferencji */
+.file-inputs {
+    display: flex;
+    align-items: center;
 }
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.file-input-label img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.send-button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.send-button:hover {
+    background-color: #45a049;
+}
+
+/* Add additional styles as needed */

@@ -22,13 +22,17 @@ const ChatList = () => {
 
         // Determine if the current user is a doctor or a patient
         const userRolesRef = database.ref();
-        userRolesRef.child(`Doctors/${currentUser.uid}`).once('value', doctorSnapshot => {
-            if (doctorSnapshot.exists()) {
-                fetchChats('Doctors', currentUser.uid);
-            } else {
-                fetchChats('Users', currentUser.uid);
-            }
-        });
+        userRolesRef.child(`Doctors/${currentUser.uid}`).once('value')
+            .then(doctorSnapshot => {
+                if (doctorSnapshot.exists()) {
+                    fetchChats('Doctors', currentUser.uid);
+                } else {
+                    fetchChats('Users', currentUser.uid);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user role:', error);
+            });
 
         function fetchChats(role, userId) {
             const chatsRef = database.ref(`${role}/${userId}/chats`);
