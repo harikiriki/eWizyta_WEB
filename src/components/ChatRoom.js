@@ -5,6 +5,7 @@ import { useAuth } from '../auth/AuthContext';
 import '../styles/ChatRoom.css';
 import imageIcon from '../addIMG.png';
 import pdfIcon from '../pdf_ic.png';
+import Modal from 'react-modal';
 
 
 const ChatRoom = () => {
@@ -14,7 +15,8 @@ const ChatRoom = () => {
     const [newMessage, setNewMessage] = useState('');
     const [senderFullName, setSenderFullName] = useState('');
     const [uploadingImage, setUploadingImage] = useState(false); // State to handle uploading status
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalImageSrc, setModalImageSrc] = useState('');
 
     useEffect(() => {
         if (!currentChat || !currentChat.id || !currentUser) {
@@ -139,15 +141,36 @@ const ChatRoom = () => {
         setUploadingImage(false); // Update loading status
     };
 
+    const openModalWithImage = (imageUrl) => {
+        setModalImageSrc(imageUrl);
+        setIsModalOpen(true);
+    };
+
+    // Function to close the modal
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalImageSrc('');
+    };
 
     return (
         <div className="chat-container">
             <h2>Rozmowa z {currentChat?.name}</h2>
+            <Modal isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Image Modal">
+                <img src={modalImageSrc} alt="Full Size" style={{ maxWidth: '100%' }} />
+                <button onClick={closeModal}>Close</button>
+            </Modal>
             <div className="messages-container">
                 {messages.map((message, index) => (
                     <div key={index} className={message.isCurrentUser ? 'message-sent' : 'message-received'}>
                         {message.type === 'TEXT' && <p>{message.text}</p>}
-                        {message.type === 'IMAGE' && <img src={message.imageUrl} alt="Sent image" style={{ maxWidth: '200px', maxHeight: '200px' }} />}
+                        {message.type === 'IMAGE' && (
+                            <img
+                                src={message.imageUrl}
+                                alt="Sent image"
+                                style={{ maxWidth: '200px', maxHeight: '200px', cursor: 'pointer' }}
+                                onClick={() => openModalWithImage(message.imageUrl)}
+                            />
+                        )}
                         {message.type === 'PDF' && (
                             <a href={message.fileUrl} download target="_blank" rel="noopener noreferrer">
                                 Download PDF
