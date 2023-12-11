@@ -84,7 +84,7 @@ const ChatList = () => {
                 </div>
 
             ) : (
-                <p>No chats available.</p>
+                <p>Brak dostępnych czatów.</p>
             )}
         </div>
     );

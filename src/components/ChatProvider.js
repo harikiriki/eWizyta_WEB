@@ -60,40 +60,61 @@ export const ChatProvider = ({ children }) => {
         };
     }, []);
 
+
     const sendMessage = (chatId, text, senderId, senderName, receiverId, receiverName, userRolePath) => {
-        if (!chatId || !senderId || !receiverId) {
-            console.error('Required information is missing');
-            return;
-        }
-
-        const message = {
-            text,
-            timestamp: Date.now(),
-            senderId,
-            senderName,
-            receiverId,
-            receiverName,
-            read: false,
-            type: 'TEXT',
-        };
-
-        // Zapisz wiadomość pod ścieżką nadawcy
+        // References to the sender's and receiver's chat paths
         const senderChatRef = database.ref(`${userRolePath}/${senderId}/chats/${chatId}`);
-        const senderMessageRef = senderChatRef.child('messages').push();
-        senderMessageRef.set(message);
-        // Zaktualizuj lastMessage w gałęzi nadawcy
-        senderChatRef.update({ lastMessage: text });
-
-        // Określ ścieżkę odbiorcy na podstawie roli zalogowanego użytkownika
-        const receiverRolePath = userRolePath === 'Doctors' ? 'Users' : 'Doctors'; // Zamień ścieżkę na przeciwną
-
-        // Zapisz wiadomość pod ścieżką odbiorcy
+        const receiverRolePath = userRolePath === 'Doctors' ? 'Users' : 'Doctors';
         const receiverChatRef = database.ref(`${receiverRolePath}/${receiverId}/chats/${chatId}`);
-        const receiverMessageRef = receiverChatRef.child('messages').push();
-        receiverMessageRef.set(message);
-        // Zaktualizuj lastMessage w gałęzi odbiorcy
-        receiverChatRef.update({ lastMessage: text });
+
+        // Check if the chat exists in the sender's path
+        senderChatRef.once('value', snapshot => {
+            if (!snapshot.exists()) {
+                // If the chat doesn't exist, create it
+                const chatDetails = {
+                    name: userRolePath === 'Users' ? receiverName : senderName, // Use doctor's name for patients and patient's name for doctors
+                    timestamp: Date.now(),
+                    messages: []
+                };
+                senderChatRef.set(chatDetails);
+            }
+
+            // Send the message
+            const message = {
+                text,
+                timestamp: Date.now(),
+                senderId,
+                senderName,
+                receiverId,
+                receiverName,
+                read: false,
+                type: 'TEXT',
+            };
+
+            senderChatRef.child('messages').push().set(message);
+            senderChatRef.update({ lastMessage: text });
+
+            // Check if the chat exists in the receiver's path
+            receiverChatRef.once('value', snapshot => {
+                if (!snapshot.exists()) {
+                    // If the chat doesn't exist, create it
+                    const chatDetails = {
+                        name: userRolePath === 'Doctors' ? senderName : receiverName, // Use patient's name for doctors
+                        timestamp: Date.now(),
+                        messages: []
+                    };
+                    receiverChatRef.set(chatDetails);
+                }
+                receiverChatRef.child('messages').push().set(message);
+                receiverChatRef.update({ lastMessage: text });
+                receiverChatRef.update({ name: senderName });
+
+            });
+        });
     };
+
+
+
 
 
     const sendImageMessage = (chatId, imageUrl, senderId, senderName, receiverId, receiverName, userRolePath) => {

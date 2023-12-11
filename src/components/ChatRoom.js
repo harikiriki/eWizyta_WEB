@@ -95,6 +95,18 @@ const ChatRoom = () => {
             const receiverId = ids.find(id => id !== currentUser.uid); // Znajdź id, które nie jest senderId
             const receiverName = currentChat.name; // Zakładamy, że name jest dostępne w currentChat
 
+            const chatRef = database.ref(`chats/${currentChat.id}`);
+            chatRef.once('value', snapshot => {
+                if (!snapshot.exists()) {
+                    // Jeśli czat nie istnieje, utwórz go
+                    chatRef.set({
+                        doctorId: currentChat.doctorId,
+                        doctorName: currentChat.name,
+                        createdAt: Date.now(), // Dodaj timestamp
+                        messages: [] // Początkowy stan wiadomości
+                    });
+                }
+            });
             // Teraz możemy użyć userRole z kontekstu do ustalenia ścieżki
             const userRolePath = userRole === 'doctor' ? 'Doctors' : 'Users';
 

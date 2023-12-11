@@ -48,10 +48,53 @@ function Home() {
 
 
 
-    const handleSelectEvent = (event) => {
-        setSelectedEvent(event);
-        setIsModalOpen(true);
+    const handleSelectEvent = async (event) => {
+        console.log("Wybrano wydarzenie:", event);
+
+        // Format selected event date and time to match database format
+        const selectedEventDateTime = moment(event.start).format('DD/MM/YYYY HH:mm');
+
+        try {
+            // Fetch all appointments from the database
+            const appointmentsRef = database.ref(`Doctors/${currentUser.uid}/appointments`);
+            const snapshot = await appointmentsRef.once('value');
+            const appointments = snapshot.val();
+
+            // Find an appointment with a matching dateTime
+            let matchingAppointment = null;
+            for (const [key, appointment] of Object.entries(appointments)) {
+                if (appointment.dateTime === selectedEventDateTime) {
+                    matchingAppointment = { id: key, ...appointment };
+                    break;
+                }
+            }
+
+            console.log("Znaleziono pasującą wizytę:", matchingAppointment);
+
+            // Check if a matching appointment is found
+            if (matchingAppointment) {
+                if (!matchingAppointment.free) {
+                    // If the appointment is not free, display details
+                    setSelectedEvent(matchingAppointment);
+                    setIsModalOpen('booked');
+                } else {
+                    // If the appointment is free, show a message
+                    setSelectedTime(selectedEventDateTime); // Use the date and time of the event
+                    setIsModalOpen('free');
+                }
+            } else {
+                console.error('Brak danych dla wybranego wydarzenia w bazie danych.');
+                setIsModalOpen(false);
+            }
+        } catch (error) {
+            console.error('Błąd przy pobieraniu danych wydarzenia:', error);
+        }
     };
+
+
+
+
+
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -311,6 +354,25 @@ function Home() {
                         <input type="time" value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)} />
                         {selectedTime && <button onClick={handleSaveAppointment}>Zapisz wizytę</button>}
                         <button onClick={closeModal}>Anuluj</button>
+                    </div>
+                )}
+
+                {isModalOpen === 'booked' && selectedEvent && (
+                    <div className="modal">
+                        <h3>Informacje o wizycie</h3>
+                        <p>Data wizyty: {moment(selectedEvent.start).format('LL HH:mm')}</p>
+                        <p>Imię i nazwisko pacjenta: {selectedEvent.patientName}</p>
+                        {/* Add additional information fields as needed */}
+                        <button onClick={closeModal}>Zamknij</button>
+                    </div>
+                )}
+
+                {isModalOpen === 'free' && (
+                    <div className="modal">
+                        <h3>Termin wolny</h3>
+                        <p>Wybrany termin: {selectedTime}</p>
+                        <p>Żaden pacjent nie umówił się na tę wizytę</p>
+                        <button onClick={closeModal}>Zamknij</button>
                     </div>
                 )}
             </div>

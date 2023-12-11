@@ -57,31 +57,6 @@ const DoctorDetails = () => {
     };
 
 
-    // const handleConfirmAppointment = () => {
-    //     const user = currentUser;
-    //
-    //     if (user && selectedAppointment?.id) {
-    //         // Pobierz dodatkowe dane użytkownika z bazy danych
-    //         database.ref(`Users/${user.uid}`).once('value').then((snapshot) => {
-    //             const userData = snapshot.val();
-    //             return database.ref(`Doctors/${doctorId}/appointments/${selectedAppointment.id}`).update({
-    //                 free: false,
-    //                 patientId: user.uid,
-    //                 patientName: `${userData.name} ${userData.lastName}` // Użyj danych z bazy danych
-    //             });
-    //         }).then(() => {
-    //             setModalOpen(false);
-    //             alert('Wizyta została zarezerwowana.');
-    //             navigate('/');
-    //         }).catch(error => {
-    //             alert('Nie udało się zarezerwować wizyty, spróbuj ponownie.');
-    //             console.error('Błąd rezerwacji wizyty:', error);
-    //         });
-    //     } else {
-    //         alert('Nie jesteś zalogowany lub wystąpił błąd z wybranym terminem.');
-    //     }
-    // };
-
     const handleConfirmAppointment = () => {
         const user = currentUser;
 
@@ -93,30 +68,26 @@ const DoctorDetails = () => {
 
                 // Informacje o wizycie do zapisania w bazie lekarza
                 const doctorAppointmentUpdate = {
+                    address: doctorDetails.address,
+                    complete: false,
+                    dateTime: moment(selectedAppointment.start).format('DD/MM/YYYY HH:mm'), // Corrected format
+                    doctorId: doctorId,
+                    doctorName: `${doctorDetails.name} ${doctorDetails.lastName}`,
                     free: false,
+                    id: selectedAppointment.id,
                     patientId: user.uid,
-                    patientName: `${userData.name} ${userData.lastName}` // Użyj danych z bazy danych
+                    patientName: `${userData.name} ${userData.lastName}`,
+                    price: doctorDetails.price
                 };
 
                 // Przygotuj aktualizację w bazie lekarza
                 updates[`Doctors/${doctorId}/appointments/${selectedAppointment.id}`] = doctorAppointmentUpdate;
 
                 // Informacje o wizycie do zapisania w bazie pacjenta
-                const patientAppointment = {
-                    address: doctorDetails.address,
-                    complete: false,
-                    dateTime: moment(selectedAppointment.start).format('YYYY-MM-DD HH:mm:ss'), // Zapisz datę jako string
-                    doctorId: doctorId,
-                    doctorName: `${doctorDetails.name} ${doctorDetails.lastName}`,
-                    free: false,
-                    id: selectedAppointment.id, // Przekaż id wizyty
-                    patientId: user.uid,
-                    patientName: `${userData.name} ${userData.lastName}`,
-                    price: doctorDetails.price
-                };
+                const patientAppointmentUpdate = { ...doctorAppointmentUpdate }; // Use the same structure for patient
 
                 // Dodaj informacje o wizycie do pacjenta
-                updates[`Users/${user.uid}/appointments/${selectedAppointment.id}`] = patientAppointment;
+                updates[`Users/${user.uid}/appointments/${selectedAppointment.id}`] = patientAppointmentUpdate;
 
                 // Wykonaj transakcję
                 return database.ref().update(updates);
@@ -133,9 +104,6 @@ const DoctorDetails = () => {
             alert('Nie jesteś zalogowany lub wystąpił błąd z wybranym terminem.');
         }
     };
-
-
-
 
 
     return (
@@ -159,6 +127,20 @@ const DoctorDetails = () => {
                 endAccessor="end"
                 style={{ height: 500 }}
                 onSelectEvent={handleSelectEvent}
+                messages={{
+                    allDay: 'Cały dzień',
+                    previous: 'Poprzedni',
+                    next: 'Następny',
+                    today: 'Dziś',
+                    month: 'Miesiąc',
+                    week: 'Tydzień',
+                    day: 'Dzień',
+                    agenda: 'Agenda',
+                    date: 'Data',
+                    time: 'Czas',
+                    event: 'Wydarzenie',
+                    noEventsInRange: 'Brak wizyt w tym zakresie.',
+                }}
             />
 
             {modalOpen && (

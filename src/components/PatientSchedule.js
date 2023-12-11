@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { database } from '../firebaseConfig/Firebase';
 import { useAuth } from '../auth/AuthContext';
+import { useChat } from './ChatProvider';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -11,6 +12,7 @@ const localizer = momentLocalizer(moment);
 
 const PatientSchedule = () => {
     const { currentUser } = useAuth();
+    const { setCurrentChat, sendMessage } = useChat();
     const navigate = useNavigate();
     const [appointments, setAppointments] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null); // Stan dla wybranego wydarzenia
@@ -79,6 +81,45 @@ const PatientSchedule = () => {
         }
     };
 
+    const getUserName = (userId) => {
+        return database.ref(`Users/${userId}`).once('value').then(snapshot => {
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                return `${userData.name} ${userData.lastName}`; // Załóżmy, że pola to name i lastName
+            } else {
+                throw new Error('Użytkownik nie istnieje');
+            }
+        });
+    };
+
+    const handleChatWithDoctor = (doctorId) => {
+        Promise.all([
+            getUserName(currentUser.uid), // Pobierz imię i nazwisko pacjenta
+            database.ref(`Doctors/${doctorId}`).once('value') // Pobierz dane lekarza
+        ]).then(([patientFullName, doctorSnapshot]) => {
+            if (doctorSnapshot.exists()) {
+                const doctorData = doctorSnapshot.val();
+                const doctorFullName = `${doctorData.name} ${doctorData.lastName}`;
+
+                const chatData = {
+                    id: `${currentUser.uid}:${doctorId}`,
+                    doctorId: doctorId,
+                    name: doctorFullName // Pełne imię i nazwisko lekarza
+                };
+
+                setCurrentChat(chatData);
+                navigate(`/chat/${chatData.id}`);
+                sendMessage(chatData.id, "", currentUser.uid, patientFullName, doctorId, doctorFullName, "Users");
+            } else {
+                alert('Nie znaleziono danych lekarza.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('Nie udało się pobrać informacji o użytkowniku.');
+        });
+    };
+
+
 
     return (
         <div>
@@ -113,6 +154,7 @@ const PatientSchedule = () => {
                     <p>{selectedEvent.title}</p>
                     <p>Data i czas: {moment(selectedEvent.start).format('LLLL')}</p>
                     <button onClick={handleCancelAppointment}>Odwołaj wizytę</button>
+                    <button onClick={() => handleChatWithDoctor(selectedEvent.doctorId, `Lek. ${selectedEvent.doctorName}`)}>Chat z lekarzem</button>
                     <button onClick={() => setModalOpen(false)}>Zamknij</button>
                 </div>
             )}
