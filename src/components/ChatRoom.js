@@ -138,14 +138,14 @@ const ChatRoom = () => {
 
         try {
             const snapshot = await fileRef.put(file, { contentType: 'application/pdf' }); // Set the content type for the PDF
-            const fileUrl = await snapshot.ref.getDownloadURL();
+            const imageUrl = await snapshot.ref.getDownloadURL();
 
             const ids = currentChat.id.split(':');
             const receiverId = ids.find(id => id !== currentUser.uid);
             const receiverName = currentChat.name;
             const userRolePath = userRole === 'doctor' ? 'Doctors' : 'Users';
 
-            sendFileMessage(currentChat.id, fileUrl, currentUser.uid, senderFullName, receiverId, receiverName, userRolePath);
+            sendFileMessage(currentChat.id, imageUrl, currentUser.uid, senderFullName, receiverId, receiverName, userRolePath);
         } catch (error) {
             console.error('Error uploading file:', error);
         }
@@ -184,7 +184,7 @@ const ChatRoom = () => {
                             />
                         )}
                         {message.type === 'PDF' && (
-                            <a href={message.fileUrl} download target="_blank" rel="noopener noreferrer">
+                            <a href={message.imageUrl} download target="_blank" rel="noopener noreferrer">
                                 Download PDF
                             </a>
                         )}

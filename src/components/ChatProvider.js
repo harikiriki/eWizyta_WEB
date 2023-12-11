@@ -152,10 +152,10 @@ export const ChatProvider = ({ children }) => {
         database.ref(`${receiverRolePath}/${receiverId}/chats/${chatId}`).update({ lastMessage: 'Otrzymano zdjęcie' });
     };
 
-    const sendFileMessage = (chatId, fileUrl, senderId, senderName, receiverId, receiverName, userRolePath) => {
+    const sendFileMessage = (chatId, imageUrl, senderId, senderName, receiverId, receiverName, userRolePath) => {
         // Similar to sendImageMessage but with file details
         const message = {
-            fileUrl,
+            imageUrl,
             timestamp: Date.now(),
             senderId,
             senderName,
