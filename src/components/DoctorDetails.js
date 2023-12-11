@@ -112,12 +112,17 @@ const DoctorDetails = () => {
             <div>
                 <h4>Lek. {doctorDetails.name} {doctorDetails.lastName}</h4>
                 <p>Specjalizacja: {doctorDetails.specialization}</p>
-                <p>Średnia ocen: {doctorDetails.totalGrade}</p>
+                <p>Średnia ocen: {
+                    doctorDetails.ratingCount && doctorDetails.ratingCount > 0
+                        ? (doctorDetails.totalGrade / doctorDetails.ratingCount).toFixed(1)
+                        : "Brak ocen"
+                }</p>
                 <p>Cena za wizytę: {doctorDetails.price}</p>
                 <p>Numer telefonu: {doctorDetails.phone}</p>
                 <p>Email: {doctorDetails.email}</p>
                 <p>Adres: {doctorDetails.address}</p>
             </div>
+
 
             <h2>Dostępne terminy</h2>
             <Calendar
