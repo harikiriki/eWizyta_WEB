@@ -302,7 +302,9 @@ function Home() {
                                 <h5 className="card-title">{doctor.name} {doctor.lastName}</h5>
                                 <p className="card-text">Specjalizacja: {doctor.specialization}</p>
                                 <p className="card-text">Cena za wizytę: {doctor.price}</p>
-                                <p className="card-text">Średnia ocen: {doctor.totalGrade}</p>
+                                <p className="card-text">Średnia ocen: {
+                                    doctor.ratingCount > 0 ? (doctor.totalGrade / doctor.ratingCount).toFixed(1) : "Brak ocen"
+                                }</p>
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => handleAppointmentClick(doctor)}
@@ -313,6 +315,7 @@ function Home() {
                         </div>
                     ))}
                 </div>
+
             </div>
         );
     } else if (userType === 'doctor') {
